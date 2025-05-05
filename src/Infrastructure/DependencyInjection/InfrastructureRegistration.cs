@@ -1,5 +1,8 @@
+using Contracts.Interfaces.Auth;
 using Contracts.Interfaces.Repositories;
 using Contracts.Interfaces.UnitOfWork;
+using Core;
+using Infrastructure.Auth;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
 using Infrastructure.UoW;
@@ -27,7 +30,10 @@ public static class InfrastructureRegistration
         services.AddScoped<IUserChatRepository, UserChatRepository>();
         
         services.AddScoped<IMessageRepository, MessageRepository>();
-
+        
+        services.AddScoped<IContactRepository, ContactRepository>();
+        
+        services.AddScoped<IAuthService, AuthService>();
         
         return services;
     }

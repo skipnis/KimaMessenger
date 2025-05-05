@@ -11,5 +11,7 @@ public class ChatConfiguration : IEntityTypeConfiguration<Chat>
         builder.ToTable("Chats");
         
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Id).ValueGeneratedOnAdd();
     }
 }

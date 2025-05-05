@@ -12,5 +12,7 @@ public interface IUnitOfWork
     
     public IUserChatRepository UserChatRepository { get; }
     
+    public IContactRepository ContactRepository { get; } 
+    
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

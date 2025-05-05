@@ -8,19 +8,28 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly ApplicationDbContext _context;
 
-    public UnitOfWork(ApplicationDbContext context, IUserRepository userRepository, IMessageRepository messageRepository, IChatRepository chatRepository, IUserChatRepository userChatRepository)
+    public UnitOfWork(
+        ApplicationDbContext context,
+        IUserRepository userRepository,
+        IMessageRepository messageRepository, 
+        IChatRepository chatRepository,
+        IUserChatRepository userChatRepository,
+        IContactRepository contactRepository)
     {
         _context = context;
         UserRepository = userRepository;
         MessageRepository = messageRepository;
         ChatRepository = chatRepository;
         UserChatRepository = userChatRepository;
+        ContactRepository = contactRepository;
     }
 
     public IUserRepository UserRepository { get; }
     public IMessageRepository MessageRepository { get; }
     public IChatRepository ChatRepository { get; }
     public IUserChatRepository UserChatRepository { get; }
+    
+    public IContactRepository ContactRepository { get; }
     
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {

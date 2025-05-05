@@ -1,5 +1,9 @@
+using Application.Commands;
 using Application.Queries;
+using Contracts.Dtos;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers;
@@ -23,5 +27,20 @@ public class ChatsController : ControllerBase
         var result = await _mediator.Send(query, cancellationToken);
         
         return Ok(result);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> CreateChat(CreateChatDto dto)
+    {
+        var chatId = await _mediator.Send(new CreateChatCommand(dto));
+        
+        return Ok(new { chatId });
+    }
+
+    [HttpGet("secret")]
+    [Authorize(AuthenticationSchemes = "KimaScheme")]
+    public IActionResult GetSecretChats(CancellationToken cancellationToken)
+    {
+        return Ok("secret");
     }
 }

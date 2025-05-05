@@ -27,14 +27,21 @@ public class ChatRepository : Repository<Chat, long>, IChatRepository
 
         var chatDtos = chats.Select(chat =>
         {
-            var contactName = chat.UserChats.FirstOrDefault(userChat => userChat.UserId != userId)?.User?.Username;
+            string chatName;
+            if (chat.UserChats.Count() > 2)
+            {
+                chatName = chat.Name;
+            }
+            else
+            { 
+                chatName = chat.UserChats.FirstOrDefault(userChat => userChat.UserId != userId)?.User?.Username;
+            }
             
             var lastMessage = chat.Messages?.OrderByDescending(message => message.Timestamp).FirstOrDefault()?.Content ?? "No messages yet";
 
-            return new ChatDto(chat.Id, contactName, lastMessage);
+            return new ChatDto(chat.Id, chatName, lastMessage);
         });
         
         return chatDtos;
     }
-    
 }

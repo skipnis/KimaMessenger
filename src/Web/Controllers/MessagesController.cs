@@ -24,4 +24,17 @@ public class MessagesController : ControllerBase
         
         return Ok(result);
    }
+   
+   [HttpGet("chat/{chatId}")]
+   public async Task<IActionResult> GetMessagesByChat(
+       [FromRoute] long chatId, 
+       CancellationToken cancellationToken,
+       [FromQuery] int pageNumber = 1, 
+       [FromQuery] int pageSize = 10)
+   {
+       var query = new GetMessagesByChatPaginatedQuery(chatId, pageNumber, pageSize);
+
+       var result = await _mediator.Send(query, cancellationToken);
+       return Ok(result);
+   }
 }
