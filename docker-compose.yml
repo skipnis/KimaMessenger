@@ -1,0 +1,33 @@
+﻿services:
+  messenger:
+    image: messenger
+    build:
+      context: .
+      dockerfile: src/Web/Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - messenger-db
+    networks:
+      - messenger-network
+  
+  messenger-db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: KimaMessengerDb
+    ports:
+      - 5009:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - messenger-network
+
+networks:
+  messenger-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
